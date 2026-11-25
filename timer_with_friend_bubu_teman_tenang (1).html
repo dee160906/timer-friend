@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TIMER WITH FRIEND – BUBU TEMAN TENANG</title>
+    <!-- Muat turun Tailwind CSS untuk susun atur responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fon mesra kanak-kanak dengan fallback sistem luar talian (offline-ready) */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap');
+
+        :root {
+            --pastel-pink: #FFD6E0;
+            --pastel-pink-dark: #FF8FA3;
+            --baby-blue: #C8E7FF;
+            --baby-blue-dark: #6BB8FF;
+            --lavender: #E5D4FF;
+            --lavender-dark: #A67CFF;
+            --cream: #FFFDF7;
+            --text-main: #4A4258;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Fredoka', 'Nunito', 'Comic Sans MS', 'Rounded Mplus 1c', sans-serif;
+            background: linear-gradient(135deg, #FFFDF7 0%, #FFE8F0 45%, #E8F4FF 100%);
+            color: var(--text-main);
+            min-height: 100dvh;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Latar belakang hiasan awan & bintang lembut */
+        .bg-decor {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 999px;
+            filter: blur(2px);
+            animation: floatCloud 28s linear infinite;
+        }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-15vw); }
+            100% { transform: translateX(115vw); }
+        }
+
+        /* Animasi Watak Bubu */
+        .bubu-wrapper {
+            animation: bubuBreathe 3.6s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        .bubu-wrapper.happy-hop {
+            animation: bubuHop 0.75s ease-in-out infinite;
+        }
+
+        @keyframes bubuBreathe {
+            0%, 100% { transform: scale(1, 1) translateY(0); }
+            50% { transform: scale(1.03, 0.97) translateY(3px); }
+        }
+
+        @keyframes bubuHop {
+            0%, 100% { transform: translateY(0) scale(1, 1); }
+            30% { transform: translateY(-14px) scale(0.96, 1.05); }
+            60% { transform: translateY(0) scale(1.04, 0.95); }
+        }
+
+        /* Animasi Kelip Mata Bubu */
+        .bubu-eye {
+            transform-origin: center;
+            animation: bubuBlink 4.5s infinite;
+        }
+
+        @keyframes bubuBlink {
+            0%, 92%, 96%, 100% { transform: scaleY(1); }
+            94%, 98% { transform: scaleY(0.1); }
+        }
+
+        /* Animasi Telinga Lembut */
+        .bubu-ear-left {
+            transform-origin: 85px 95px;
+            animation: earWiggleLeft 5s ease-in-out infinite;
+        }
+
+        .bubu-ear-right {
+            transform-origin: 135px 95px;
+            animation: earWiggleRight 5s ease-in-out infinite;
+        }
+
+        @keyframes earWiggleLeft {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-4deg); }
+        }
+
+        @keyframes earWiggleRight {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(4deg); }
+        }
+
+        /* Animasi Mulut Bercakap */
+        .bubu-talking .mouth-talk {
+            animation: mouthMove 0.28s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+
+        @keyframes mouthMove {
+            0% { transform: scaleY(0.4); }
+            100% { transform: scaleY(1.2); }
+        }
+
+        /* Butang Gaya Kartun 3D Pastel */
+        .btn-kid {
+            transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+            border-radius: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+        }
+
+        .btn-kid:active {
+            transform: translateY(5px) scale(0.97);
+        }
+
+        .btn-pink {
+            background: linear-gradient(180deg, #FF9EB5 0%, #FF7597 100%);
+            color: white;
+            box-shadow: 0 7px 0 #E05275, 0 12px 20px rgba(255, 117, 151, 0.35);
+            border: 3px solid #FFF;
+        }
+
+        .btn-blue {
+            background: linear-gradient(180deg, #8ECAE6 0%, #5AA9E6 100%);
+            color: white;
+            box-shadow: 0 7px 0 #3D88C4, 0 12px 20px rgba(90, 169, 230, 0.35);
+            border: 3px solid #FFF;
+        }
+
+        .btn-lavender {
+            background: linear-gradient(180deg, #C8B6FF 0%, #9D81F9 100%);
+            color: white;
+            box-shadow: 0 7px 0 #7859DB, 0 12px 20px rgba(157, 129, 249, 0.35);
+            border: 3px solid #FFF;
+        }
+
+        .btn-mint {
+            background: linear-gradient(180deg, #80ED99 0%, #4CC970 100%);
+            color: white;
+            box-shadow: 0 7px 0 #339E52, 0 12px 20px rgba(76, 201, 112, 0.35);
+            border: 3px solid #FFF;
+        }
+
+        .btn-cream {
+            background: #FFFFFF;
+            color: #5E5473;
+            box-shadow: 0 5px 0 #DFD6F0, 0 8px 16px rgba(94, 84, 115, 0.12);
+            border: 3px solid #EFE9FA;
+        }
+
+        /* Kad Pilihan Masa */
+        .time-card {
+            background: rgba(255, 255, 255, 0.92);
+            border: 4px solid #E5D4FF;
+            border-radius: 2rem;
+            box-shadow: 0 8px 0 #D4BCFA, 0 14px 24px rgba(166, 124, 255, 0.18);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .time-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: #FF8FA3;
+            box-shadow: 0 10px 0 #FFB3C1, 0 16px 28px rgba(255, 143, 163, 0.25);
+        }
+
+        .time-card:active {
+            transform: translateY(4px) scale(0.97);
+        }
+
+        /* Gelembung Dialog Bubu */
+        .speech-bubble {
+            position: relative;
+            background: #FFFFFF;
+            border: 4px solid #FFD6E0;
+            border-radius: 2rem;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.25);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 16px 16px 16px;
+            border-style: solid;
+            border-color: transparent transparent #FFD6E0 transparent;
+        }
+
+        /* Animasi Pop Kiraan Mula */
+        @keyframes popNumber {
+            0% { transform: scale(0.3); opacity: 0; }
+            60% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .countdown-pop {
+            animation: popNumber 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* Konfeti Tamat */
+        .confetti-piece {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            pointer-events: none;
+            z-index: 50;
+            animation: confettiFall 3.5s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Input nama mesra kanak-kanak */
+        .name-input {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+    </style>
+</head>
+<body class="selection:bg-pink-200">
+
+    <!-- Latar Belakang Awan Lembut -->
+    <div class="bg-decor" aria-hidden="true">
+        <div class="cloud w-40 h-14 top-12 opacity-70" style="animation-duration: 34s;"></div>
+        <div class="cloud w-56 h-16 top-1/3 opacity-60" style="animation-duration: 42s; animation-delay: -12s;"></div>
+        <div class="cloud w-36 h-12 bottom-20 opacity-75" style="animation-duration: 29s; animation-delay: -6s;"></div>
+    </div>
+
+    <!-- Bar Kawalan Atas: Tajuk Kecil & Kawalan Audio -->
+    <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-3 pb-1 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-pink-200 shadow-sm">
+            <span class="text-xl" aria-hidden="true">🐰</span>
+            <span class="font-bold text-sm sm:text-base text-pink-500 tracking-wide">ZON TENANG BUBU</span>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Butang Ulang Suara Bubu -->
+            <button id="btn-repeat-voice" onclick="repeatLastSpeech()" title="Dengar semula suara Bubu"
+                class="btn-kid btn-cream px-3 sm:px-4 py-2.5 flex items-center gap-2 text-sm sm:text-base active:translate-y-1">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                <span class="hidden sm:inline">Ulang Suara</span>
+            </button>
+
+            <!-- Butang Mute / Unmute -->
+            <button id="btn-mute" onclick="toggleMute()" title="Senyapkan atau bunyikan suara"
+                class="btn-kid btn-cream px-3 sm:px-4 py-2.5 flex items-center gap-2 text-sm sm:text-base active:translate-y-1">
+                <span id="mute-icon" class="text-blue-500">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                    </svg>
+                </span>
+                <span id="mute-label" class="hidden sm:inline">Suara Hidup</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Kandungan Utama Aplikasi -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-4 py-2 sm:py-4">
+
+        <!-- ========================================================= -->
+        <!-- SKRIN 1: SKRIN UTAMA                                      -->
+        <!-- ========================================================= -->
+        <section id="screen-welcome" class="w-full flex flex-col items-center text-center space-y-4 sm:space-y-6">
+            <div class="bg-white/85 px-6 py-3 rounded-full border-4 border-purple-200 shadow-sm">
+                <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 tracking-tight">
+                    TIMER WITH FRIEND
+                </h1>
+                <p class="text-sm sm:text-lg font-bold text-purple-400 tracking-widest mt-0.5">BUBU TEMAN TENANG</p>
+            </div>
+
+            <!-- Watak Bubu SVG -->
+            <div id="bubu-stage-1" class="w-44 h-44 sm:w-56 sm:h-56 flex items-center justify-center"></div>
+
+            <!-- Kotak Mesej Bubu -->
+            <div class="speech-bubble max-w-xl w-full p-5 sm:p-6">
+                <p class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 leading-snug">
+                    "Hai kawan! Saya Bubu. Jom kita tenangkan diri bersama-sama!"
+                </p>
+            </div>
+
+            <!-- Butang MULA -->
+            <button onclick="goToNameScreen()" class="btn-kid btn-pink text-2xl sm:text-3xl px-12 py-4 sm:px-16 sm:py-5 flex items-center gap-3 mt-2">
+                <span>MULA</span>
+                <span class="text-3xl">✨</span>
+            </button>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SKRIN 2: INTERAKSI NAMA                                   -->
+        <!-- ========================================================= -->
+        <section id="screen-name" class="hidden w-full flex flex-col items-center text-center space-y-4 sm:space-y-5">
+            <div id="bubu-stage-2" class="w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center"></div>
+
+            <div class="speech-bubble max-w-xl w-full p-5 sm:p-6">
+                <p id="name-prompt-text" class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 leading-snug">
+                    "Hai! Siapa nama awak?"
+                </p>
+            </div>
+
+            <!-- Borang Nama -->
+            <form id="name-form" onsubmit="submitChildName(event)" class="w-full max-w-md flex flex-col items-center gap-4">
+                <input
+                    id="child-name-input"
+                    type="text"
+                    maxlength="20"
+                    autocomplete="off"
+                    placeholder="Taip nama awak di sini..."
+                    aria-label="Nama kanak-kanak"
+                    class="name-input w-full text-center text-2xl sm:text-3xl font-bold text-purple-700 bg-white border-4 border-blue-300 focus:border-pink-400 focus:outline-none rounded-3xl px-6 py-4 shadow-inner placeholder:text-slate-300"
+                />
+                <p id="name-error-msg" class="hidden text-pink-600 font-bold text-base sm:text-lg bg-pink-100 px-4 py-1.5 rounded-full">
+                    Bubu nak tahu nama awak. Taip nama dulu ya! 😊
+                </p>
+                <button id="btn-submit-name" type="submit" class="btn-kid btn-blue text-2xl sm:text-3xl px-14 py-4">
+                    OK 👍
+                </button>
+            </form>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SKRIN 3: PILIH MASA BERTENANG                             -->
+        <!-- ========================================================= -->
+        <section id="screen-duration" class="hidden w-full flex flex-col items-center text-center space-y-4 sm:space-y-5">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 w-full max-w-3xl">
+                <div id="bubu-stage-3" class="w-32 h-32 sm:w-40 sm:h-40 shrink-0 flex items-center justify-center"></div>
+                <div class="speech-bubble flex-1 p-4 sm:p-6">
+                    <p id="duration-prompt-text" class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 leading-snug">
+                        "Berapa lama awak nak berehat bersama Bubu?"
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4 Pilihan Masa (3, 5, 10, 15 Minit) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 w-full max-w-4xl pt-2">
+                <!-- 3 MINIT -->
+                <button onclick="selectDuration(3)" class="time-card p-4 sm:p-6 flex flex-col items-center justify-center gap-2">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-pink-100 flex items-center justify-center text-4xl sm:text-5xl">
+                        🌸
+                    </div>
+                    <span class="text-2xl sm:text-3xl font-extrabold text-pink-500">3 MINIT</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-400">Rehat Sekejap</span>
+                </button>
+
+                <!-- 5 MINIT -->
+                <button onclick="selectDuration(5)" class="time-card p-4 sm:p-6 flex flex-col items-center justify-center gap-2">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-100 flex items-center justify-center text-4xl sm:text-5xl">
+                        ☁️
+                    </div>
+                    <span class="text-2xl sm:text-3xl font-extrabold text-blue-500">5 MINIT</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-400">Nafas Tenang</span>
+                </button>
+
+                <!-- 10 MINIT -->
+                <button onclick="selectDuration(10)" class="time-card p-4 sm:p-6 flex flex-col items-center justify-center gap-2">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-purple-100 flex items-center justify-center text-4xl sm:text-5xl">
+                        🌈
+                    </div>
+                    <span class="text-2xl sm:text-3xl font-extrabold text-purple-500">10 MINIT</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-400">Tenang Damai</span>
+                </button>
+
+                <!-- 15 MINIT -->
+                <button onclick="selectDuration(15)" class="time-card p-4 sm:p-6 flex flex-col items-center justify-center gap-2">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-amber-100 flex items-center justify-center text-4xl sm:text-5xl">
+                        ⭐
+                    </div>
+                    <span class="text-2xl sm:text-3xl font-extrabold text-amber-500">15 MINIT</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-400">Rehat Panjang</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SKRIN 4: KIRAAN MULA (3, 2, 1, Mula!)                     -->
+        <!-- ========================================================= -->
+        <section id="screen-ready" class="hidden w-full flex flex-col items-center text-center space-y-5">
+            <div id="bubu-stage-4" class="w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center"></div>
+
+            <div class="speech-bubble max-w-xl w-full p-4 sm:p-5">
+                <p class="text-xl sm:text-2xl font-bold text-slate-700">
+                    "Bagus! Mari kita bersedia. Kita mula bersama-sama ya!"
+                </p>
+            </div>
+
+            <!-- Nombor Kiraan Undur Besar -->
+            <div class="w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-white border-8 border-pink-300 shadow-xl flex items-center justify-center">
+                <span id="ready-countdown-text" class="text-6xl sm:text-8xl font-extrabold text-pink-500 countdown-pop">
+                    3
+                </span>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SKRIN 5: SKRIN TIMER UTAMA                                -->
+        <!-- ========================================================= -->
+        <section id="screen-timer" class="hidden w-full flex flex-col items-center text-center space-y-3 sm:space-y-5">
+            <!-- Bulatan Progress SVG + Watak Bubu + Masa MM:SS -->
+            <div class="relative flex items-center justify-center w-72 h-72 sm:w-96 sm:h-96">
+                <!-- Bulatan Kemajuan -->
+                <svg class="w-full h-full -rotate-90 drop-shadow-md" viewBox="0 0 320 320">
+                    <!-- Latar belakang bulatan putih lembut -->
+                    <circle cx="160" cy="160" r="142" fill="#FFFFFF" fill-opacity="0.9" stroke="#E5D4FF" stroke-width="18" />
+                    <!-- Garis progress berwarna -->
+                    <circle id="timer-progress-ring" cx="160" cy="160" r="142" fill="none"
+                        stroke="url(#timerGradient)" stroke-width="18" stroke-linecap="round"
+                        stroke-dasharray="892.21" stroke-dashoffset="0" />
+                    <defs>
+                        <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FF8FA3" />
+                            <stop offset="50%" stop-color="#A67CFF" />
+                            <stop offset="100%" stop-color="#6BB8FF" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <!-- Kandungan Tengah Bulatan: Bubu & Nombor Masa Besar -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center pt-2">
+                    <div id="bubu-stage-5" class="w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center -mb-2"></div>
+                    <div id="timer-display" class="text-5xl sm:text-7xl font-extrabold text-slate-700 tracking-wider tabular-nums">
+                        03:00
+                    </div>
+                    <span id="timer-child-tag" class="text-xs sm:text-sm font-bold text-purple-400 bg-purple-50 px-3 py-0.5 rounded-full mt-1">
+                        Teman Tenang
+                    </span>
+                </div>
+            </div>
+
+            <!-- Mesej Motivasi Bubu -->
+            <div class="speech-bubble max-w-xl w-full p-4 sm:p-6">
+                <p id="motivation-text" class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 leading-snug transition-opacity duration-300">
+                    "Bubu ada di sini menemani awak."
+                </p>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SKRIN 6: TIMER TAMAT                                      -->
+        <!-- ========================================================= -->
+        <section id="screen-complete" class="hidden w-full flex flex-col items-center text-center space-y-4 sm:space-y-5">
+            <div class="bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-white px-6 py-3 rounded-3xl shadow-lg border-4 border-white">
+                <h2 class="text-2xl sm:text-4xl font-extrabold">
+                    🎉 Tahniah! Masa Bertenang Selesai! 🎉
+                </h2>
+            </div>
+
+            <div id="bubu-stage-6" class="w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center"></div>
+
+            <div class="speech-bubble max-w-2xl w-full p-5 sm:p-6">
+                <p id="complete-message-text" class="text-lg sm:text-2xl font-bold text-slate-700 leading-relaxed">
+                    "Masa dah tamat! Terima kasih kerana berehat bersama Bubu."
+                </p>
+            </div>
+
+            <!-- Butang SELESAI, MAIN SEMULA dan MENU UTAMA -->
+            <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 w-full max-w-2xl pt-2">
+                <button onclick="finishSession()" class="btn-kid btn-mint w-full sm:w-auto flex-1 text-xl sm:text-2xl px-6 py-4">
+                    SELESAI ✅
+                </button>
+                <button onclick="playAgain()" class="btn-kid btn-lavender w-full sm:w-auto flex-1 text-xl sm:text-2xl px-6 py-4">
+                    MAIN SEMULA 🔄
+                </button>
+                <button onclick="goToMainMenu()" class="btn-kid btn-pink w-full sm:w-auto flex-1 text-xl sm:text-2xl px-6 py-4">
+                    MENU UTAMA 🏠
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Templat SVG Watak Arnab Bubu (Comel, Gebu, Pipi Merah Jambu, Berkelip) -->
+    <template id="bubu-svg-template">
+        <svg class="bubu-svg w-full h-full drop-shadow-md overflow-visible" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+            <g class="bubu-wrapper">
+                <!-- Bayang-bayang lembut di bawah -->
+                <ellipse cx="110" cy="204" rx="58" ry="11" fill="#E2D4F0" opacity="0.7" />
+
+                <!-- Telinga Kiri -->
+                <g class="bubu-ear-left">
+                    <path d="M84 95 C68 35, 52 18, 72 14 C92 10, 102 45, 102 95 Z" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="4" />
+                    <path d="M84 85 C74 45, 65 30, 75 28 C85 26, 92 48, 94 85 Z" fill="#FFD6E0" />
+                </g>
+
+                <!-- Telinga Kanan -->
+                <g class="bubu-ear-right">
+                    <path d="M136 95 C152 35, 168 18, 148 14 C128 10, 118 45, 118 95 Z" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="4" />
+                    <path d="M136 85 C146 45, 155 30, 145 28 C135 26, 128 48, 126 85 Z" fill="#FFD6E0" />
+                </g>
+
+                <!-- Reben Comel di Telinga -->
+                <g transform="translate(136, 62) rotate(15)">
+                    <path d="M0 0 L-14 -9 C-18 -4, -18 4, -14 9 Z" fill="#FF8FA3" />
+                    <path d="M0 0 L14 -9 C18 -4, 18 4, 14 9 Z" fill="#FF8FA3" />
+                    <circle cx="0" cy="0" r="5" fill="#FFE5EC" />
+                </g>
+
+                <!-- Badan Gebu -->
+                <ellipse cx="110" cy="166" rx="52" ry="40" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="4" />
+                <!-- Perut Gebu -->
+                <ellipse cx="110" cy="170" rx="32" ry="25" fill="#FFF5F8" />
+
+                <!-- Kaki Comel -->
+                <ellipse cx="82" cy="198" rx="18" ry="10" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="3.5" />
+                <ellipse cx="138" cy="198" rx="18" ry="10" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="3.5" />
+
+                <!-- Tangan Comel -->
+                <ellipse cx="62" cy="160" rx="13" ry="18" transform="rotate(25 62 160)" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="3.5" />
+                <ellipse cx="158" cy="160" rx="13" ry="18" transform="rotate(-25 158 160)" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="3.5" />
+
+                <!-- Kepala Gebu -->
+                <ellipse cx="110" cy="112" rx="64" ry="52" fill="#FFFFFF" stroke="#E8DFF5" stroke-width="4" />
+
+                <!-- Pipi Merah Jambu -->
+                <ellipse cx="72" cy="124" rx="14" ry="9" fill="#FFB3C6" opacity="0.85" />
+                <ellipse cx="148" cy="124" rx="14" ry="9" fill="#FFB3C6" opacity="0.85" />
+
+                <!-- Mata Kiri -->
+                <g class="bubu-eye" style="transform-origin: 86px 108px;">
+                    <circle cx="86" cy="108" r="8.5" fill="#4A4258" />
+                    <circle cx="83" cy="105" r="3" fill="#FFFFFF" />
+                    <circle cx="89" cy="111" r="1.5" fill="#FFFFFF" />
+                </g>
+
+                <!-- Mata Kanan -->
+                <g class="bubu-eye" style="transform-origin: 134px 108px;">
+                    <circle cx="134" cy="108" r="8.5" fill="#4A4258" />
+                    <circle cx="131" cy="105" r="3" fill="#FFFFFF" />
+                    <circle cx="137" cy="111" r="1.5" fill="#FFFFFF" />
+                </g>
+
+                <!-- Hidung Merah Jambu -->
+                <path d="M105 119 Q110 116 115 119 Q113 124 110 125 Q107 124 105 119 Z" fill="#FF8FA3" />
+
+                <!-- Mulut Senyum -->
+                <path class="mouth-smile" d="M100 128 Q105 134 110 128 Q115 134 120 128" fill="none" stroke="#4A4258" stroke-width="3.2" stroke-linecap="round" />
+                <!-- Mulut Bercakap (animasi halus) -->
+                <ellipse class="mouth-talk hidden" cx="110" cy="131" rx="6" ry="5" fill="#FF8FA3" />
+            </g>
+        </svg>
+    </template>
+
+    <script>
+        /* =====================================================================
+           PEMBOLEH UBAH SESI & KEADAAN APLIKASI
+           ===================================================================== */
+        const sessionState = {
+            childName: "",
+            selectedMinutes: 3,
+            totalSeconds: 180,
+            isMuted: false,
+            lastSpokenText: "Hai kawan! Saya Bubu. Jom kita tenangkan diri bersama-sama!",
+            currentScreen: "screen-welcome",
+            timerEndTime: null,
+            timerIntervalId: null,
+            readyTimeoutIds: [],
+            lastMotivationIndex: -1,
+            lastSpokenMinuteMarker: null
+        };
+
+        const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 142; // 892.21
+
+        const MOTIVATION_MESSAGES = [
+            "Awak hebat!",
+            "Tak apa, kita berehat perlahan-lahan.",
+            "Tarik nafas... hembus perlahan-lahan.",
+            "Bubu ada di sini menemani awak."
+        ];
+
+        /* =====================================================================
+           INISIALISASI WATAK BUBU & SUARA
+           ===================================================================== */
+        function injectBubuCharacters() {
+            const template = document.getElementById("bubu-svg-template");
+            const stages = [
+                "bubu-stage-1",
+                "bubu-stage-2",
+                "bubu-stage-3",
+                "bubu-stage-4",
+                "bubu-stage-5",
+                "bubu-stage-6"
+            ];
+            stages.forEach(stageId => {
+                const container = document.getElementById(stageId);
+                if (container && template) {
+                    container.innerHTML = "";
+                    container.appendChild(template.content.cloneNode(true));
+                }
+            });
+        }
+
+        function setBubuTalking(isTalking) {
+            document.querySelectorAll(".bubu-svg").forEach(svg => {
+                const talkMouth = svg.querySelector(".mouth-talk");
+                if (isTalking) {
+                    svg.classList.add("bubu-talking");
+                    if (talkMouth) talkMouth.classList.remove("hidden");
+                } else {
+                    svg.classList.remove("bubu-talking");
+                    if (talkMouth) talkMouth.classList.add("hidden");
+                }
+            });
+        }
+
+        function setBubuHappyHop(isHappy) {
+            document.querySelectorAll(".bubu-wrapper").forEach(wrapper => {
+                if (isHappy) {
+                    wrapper.classList.add("happy-hop");
+                } else {
+                    wrapper.classList.remove("happy-hop");
+                }
+            });
+        }
+
+        /* =====================================================================
+           WEB AUDIO API: KESAN BUNYI LEMBUT TANPA PAUTAN LUAR (OFFLINE READY)
+           ===================================================================== */
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === "suspended") {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playGentleTone(freq, duration = 0.25, type = "sine", delay = 0) {
+            if (sessionState.isMuted) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+
+                gain.gain.setValueAtTime(0.001, ctx.currentTime + delay);
+                gain.gain.exponentialRampToValueAtTime(0.14, ctx.currentTime + delay + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(ctx.currentTime + delay);
+                osc.stop(ctx.currentTime + delay + duration + 0.02);
+            } catch (e) {
+                // Abaikan jika browser menyekat audio sebelum interaksi
+            }
+        }
+
+        function playPopSound() {
+            playGentleTone(523.25, 0.14, "sine", 0); // C5
+            playGentleTone(659.25, 0.18, "sine", 0.07); // E5
+        }
+
+        function playCountdownBeep(isGo = false) {
+            if (isGo) {
+                playGentleTone(523.25, 0.2, "sine", 0);
+                playGentleTone(659.25, 0.2, "sine", 0.1);
+                playGentleTone(783.99, 0.35, "sine", 0.2);
+            } else {
+                playGentleTone(440, 0.22, "sine", 0);
+            }
+        }
+
+        function playCelebrationChime() {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((note, idx) => {
+                playGentleTone(note, 0.35, "triangle", idx * 0.14);
+            });
+        }
+
+        /* =====================================================================
+           WEB SPEECH API: SUARA BAHASA MELAYU BUBU
+           ===================================================================== */
+        let selectedVoice = null;
+
+        function loadPreferredVoice() {
+            if (!("speechSynthesis" in window)) return;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return;
+
+            // Utamakan suara Bahasa Melayu (ms-MY atau kod ms)
+            selectedVoice =
+                voices.find(v => v.lang.toLowerCase() === "ms-my") ||
+                voices.find(v => v.lang.toLowerCase().startsWith("ms")) ||
+                voices.find(v => v.name.toLowerCase().includes("malay")) ||
+                voices.find(v => v.lang.toLowerCase().startsWith("id")) ||
+                voices.find(v => v.default) ||
+                voices[0];
+        }
+
+        if ("speechSynthesis" in window) {
+            loadPreferredVoice();
+            window.speechSynthesis.onvoiceschanged = loadPreferredVoice;
+        }
+
+        function speakBubu(text, onEndCallback = null) {
+            sessionState.lastSpokenText = text;
+
+            if (!("speechSynthesis" in window)) {
+                if (onEndCallback) setTimeout(onEndCallback, 1200);
+                return;
+            }
+
+            // Hentikan audio sebelumnya supaya tidak bertindih
+            window.speechSynthesis.cancel();
+            setBubuTalking(false);
+
+            if (sessionState.isMuted) {
+                if (onEndCallback) setTimeout(onEndCallback, 900);
+                return;
+            }
+
+            if (!selectedVoice) loadPreferredVoice();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            utterance.lang = "ms-MY";
+            utterance.rate = 0.8;   // Kadar percakapan perlahan & jelas untuk prasekolah
+            utterance.pitch = 1.18; // Nada lembut dan mesra kanak-kanak
+            utterance.volume = 1.0;
+
+            utterance.onstart = () => {
+                setBubuTalking(true);
+            };
+
+            utterance.onend = () => {
+                setBubuTalking(false);
+                if (typeof onEndCallback === "function") {
+                    onEndCallback();
+                }
+            };
+
+            utterance.onerror = () => {
+                setBubuTalking(false);
+                if (typeof onEndCallback === "function") {
+                    onEndCallback();
+                }
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function repeatLastSpeech() {
+            playPopSound();
+            if (sessionState.isMuted) {
+                toggleMute();
+            }
+            if (sessionState.lastSpokenText) {
+                speakBubu(sessionState.lastSpokenText);
+            }
+        }
+
+        function toggleMute() {
+            sessionState.isMuted = !sessionState.isMuted;
+            const labelEl = document.getElementById("mute-label");
+            const iconEl = document.getElementById("mute-icon");
+
+            if (sessionState.isMuted) {
+                if ("speechSynthesis" in window) {
+                    window.speechSynthesis.cancel();
+                }
+                setBubuTalking(false);
+                labelEl.textContent = "Suara Senyap";
+                iconEl.className = "text-rose-500";
+                iconEl.innerHTML = `
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
+                    </svg>
+                `;
+            } else {
+                labelEl.textContent = "Suara Hidup";
+                iconEl.className = "text-blue-500";
+                iconEl.innerHTML = `
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                    </svg>
+                `;
+                playPopSound();
+            }
+        }
+
+        /* =====================================================================
+           NAVIGASI SKRIN
+           ===================================================================== */
+        function showScreen(screenId) {
+            const screens = [
+                "screen-welcome",
+                "screen-name",
+                "screen-duration",
+                "screen-ready",
+                "screen-timer",
+                "screen-complete"
+            ];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === screenId) {
+                        el.classList.remove("hidden");
+                    } else {
+                        el.classList.add("hidden");
+                    }
+                }
+            });
+            sessionState.currentScreen = screenId;
+        }
+
+        function clearAllTimers() {
+            if (sessionState.timerIntervalId) {
+                clearInterval(sessionState.timerIntervalId);
+                sessionState.timerIntervalId = null;
+            }
+            sessionState.readyTimeoutIds.forEach(id => clearTimeout(id));
+            sessionState.readyTimeoutIds = [];
+        }
+
+        /* =====================================================================
+           ALIRAN 1 -> 2: SKRIN UTAMA KE INTERAKSI NAMA
+           ===================================================================== */
+        function goToNameScreen() {
+            getAudioContext();
+            playPopSound();
+            setBubuHappyHop(false);
+            showScreen("screen-name");
+
+            const promptEl = document.getElementById("name-prompt-text");
+            const inputEl = document.getElementById("child-name-input");
+            const errorEl = document.getElementById("name-error-msg");
+            const submitBtn = document.getElementById("btn-submit-name");
+
+            promptEl.textContent = `"Hai! Siapa nama awak?"`;
+            errorEl.classList.add("hidden");
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("opacity-60");
+            inputEl.value = sessionState.childName;
+
+            speakBubu("Hai! Siapa nama awak?");
+            setTimeout(() => inputEl.focus(), 250);
+        }
+
+        /* =====================================================================
+           ALIRAN 2 -> 3: SIMPAN NAMA & SAPAAN BUBU
+           ===================================================================== */
+        function submitChildName(event) {
+            event.preventDefault();
+            const inputEl = document.getElementById("child-name-input");
+            const errorEl = document.getElementById("name-error-msg");
+            const submitBtn = document.getElementById("btn-submit-name");
+            const rawName = inputEl.value.trim();
+
+            if (!rawName) {
+                errorEl.classList.remove("hidden");
+                speakBubu("Bubu nak tahu nama awak. Taip nama dulu ya!");
+                inputEl.focus();
+                return;
+            }
+
+            errorEl.classList.add("hidden");
+            // Format huruf pertama besar supaya kemas
+            const formattedName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+            sessionState.childName = formattedName;
+
+            playPopSound();
+            setBubuHappyHop(true);
+
+            // Kunci butang sebentar semasa Bubu menyapa nama kanak-kanak
+            submitBtn.disabled = true;
+            submitBtn.classList.add("opacity-60");
+
+            const greetingText = `Wah, hai ${sessionState.childName}! Seronoknya dapat berkawan dengan awak!`;
+            document.getElementById("name-prompt-text").textContent = `"${greetingText}"`;
+
+            let movedToNext = false;
+            const proceedToDuration = () => {
+                if (movedToNext) return;
+                movedToNext = true;
+                setBubuHappyHop(false);
+                goToDurationScreen();
+            };
+
+            speakBubu(greetingText, () => {
+                setTimeout(proceedToDuration, 550);
+            });
+
+            // Sandaran keselamatan jika speechSynthesis mengambil masa terlalu lama
+            const fallbackId = setTimeout(proceedToDuration, 6000);
+            sessionState.readyTimeoutIds.push(fallbackId);
+        }
+
+        /* =====================================================================
+           ALIRAN 3: PILIH MASA BERTENANG
+           ===================================================================== */
+        function goToDurationScreen() {
+            clearAllTimers();
+            showScreen("screen-duration");
+            const questionText = `${sessionState.childName}, berapa lama awak nak berehat bersama Bubu?`;
+            document.getElementById("duration-prompt-text").textContent = `"${questionText}"`;
+            speakBubu(questionText);
+        }
+
+        /* =====================================================================
+           ALIRAN 4: KIRAAN MULA (3, 2, 1, Mula!)
+           ===================================================================== */
+        function selectDuration(minutes) {
+            playPopSound();
+            sessionState.selectedMinutes = minutes;
+            sessionState.totalSeconds = minutes * 60;
+
+            clearAllTimers();
+            showScreen("screen-ready");
+
+            const countEl = document.getElementById("ready-countdown-text");
+            const updateCountBadge = (val, colorClass) => {
+                countEl.textContent = val;
+                countEl.className = `text-6xl sm:text-8xl font-extrabold ${colorClass} countdown-pop`;
+                // Paksa animasi restart
+                void countEl.offsetWidth;
+            };
+
+            updateCountBadge("3", "text-pink-500");
+            speakBubu("Bagus! Mari kita bersedia. Kita mula bersama-sama ya!");
+
+            // Jadual kiraan undur tepat untuk 3, 2, 1, Mula!
+            const t1 = setTimeout(() => {
+                updateCountBadge("3", "text-pink-500");
+                playCountdownBeep(false);
+                speakBubu("Tiga");
+            }, 3400);
+
+            const t2 = setTimeout(() => {
+                updateCountBadge("2", "text-purple-500");
+                playCountdownBeep(false);
+                speakBubu("Dua");
+            }, 4600);
+
+            const t3 = setTimeout(() => {
+                updateCountBadge("1", "text-blue-500");
+                playCountdownBeep(false);
+                speakBubu("Satu");
+            }, 5800);
+
+            const t4 = setTimeout(() => {
+                updateCountBadge("Mula!", "text-emerald-500 text-5xl sm:text-7xl");
+                playCountdownBeep(true);
+                speakBubu("Mula!");
+            }, 7000);
+
+            const t5 = setTimeout(() => {
+                startMainCountdown();
+            }, 8200);
+
+            sessionState.readyTimeoutIds.push(t1, t2, t3, t4, t5);
+        }
+
+        /* =====================================================================
+           ALIRAN 5: SKRIN TIMER (TEPAT BERASASKAN Date.now())
+           ===================================================================== */
+        function formatMMSS(totalSec) {
+            const safeSec = Math.max(0, Math.ceil(totalSec));
+            const mins = Math.floor(safeSec / 60);
+            const secs = safeSec % 60;
+            return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+        }
+
+        function updateMotivationBanner(forceSpeak = false) {
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * MOTIVATION_MESSAGES.length);
+            } while (nextIndex === sessionState.lastMotivationIndex && MOTIVATION_MESSAGES.length > 1);
+
+            sessionState.lastMotivationIndex = nextIndex;
+            const baseMsg = MOTIVATION_MESSAGES[nextIndex];
+            const personalizedMsg = `${sessionState.childName}, ${baseMsg.charAt(0).toLowerCase() + baseMsg.slice(1)}`;
+
+            const msgEl = document.getElementById("motivation-text");
+            msgEl.style.opacity = "0";
+            setTimeout(() => {
+                msgEl.textContent = `"${baseMsg}"`;
+                msgEl.style.opacity = "1";
+            }, 180);
+
+            if (forceSpeak) {
+                speakBubu(personalizedMsg);
+            }
+        }
+
+        function startMainCountdown() {
+            clearAllTimers();
+            showScreen("screen-timer");
+
+            const totalSeconds = sessionState.totalSeconds;
+            // Tetapkan masa tamat sebenar menggunakan Date.now()
+            sessionState.timerEndTime = Date.now() + (totalSeconds * 1000);
+            sessionState.lastSpokenMinuteMarker = sessionState.selectedMinutes;
+
+            document.getElementById("timer-child-tag").textContent = `Teman Tenang: ${sessionState.childName}`;
+            const progressRing = document.getElementById("timer-progress-ring");
+            const timerDisplay = document.getElementById("timer-display");
+
+            progressRing.style.strokeDasharray = `${CIRCLE_CIRCUMFERENCE}`;
+            progressRing.style.strokeDashoffset = "0";
+            timerDisplay.textContent = formatMMSS(totalSeconds);
+
+            // Mesej motivasi permulaan
+            document.getElementById("motivation-text").textContent = `"Bubu ada di sini menemani awak."`;
+
+            let lastDisplayedSecond = totalSeconds;
+            let lastMotivationSwitchTime = Date.now();
+
+            const tick = () => {
+                const now = Date.now();
+                const remainingMs = sessionState.timerEndTime - now;
+
+                if (remainingMs <= 0) {
+                    // Masa tamat tepat pada sifar
+                    timerDisplay.textContent = "00:00";
+                    progressRing.style.strokeDashoffset = `${CIRCLE_CIRCUMFERENCE}`;
+                    clearAllTimers();
+                    completeTimer();
+                    return;
+                }
+
+                // Kemas kini bulatan progress dengan lancar mengikut baki masa sebenar
+                const fractionElapsed = 1 - (remainingMs / (totalSeconds * 1000));
+                const dashOffset = Math.min(CIRCLE_CIRCUMFERENCE, Math.max(0, fractionElapsed * CIRCLE_CIRCUMFERENCE));
+                progressRing.style.strokeDashoffset = `${dashOffset.toFixed(2)}`;
+
+                // Kemas kini paparan MM:SS hanya apabila saat berubah
+                const remainingSecCeil = Math.ceil(remainingMs / 1000);
+                if (remainingSecCeil !== lastDisplayedSecond) {
+                    lastDisplayedSecond = remainingSecCeil;
+                    timerDisplay.textContent = formatMMSS(remainingSecCeil);
+
+                    // Tukar mesej motivasi setiap 25 saat secara visual & setiap 60 saat dengan suara lembut
+                    if (now - lastMotivationSwitchTime >= 25000) {
+                        lastMotivationSwitchTime = now;
+                        const currentMin = Math.ceil(remainingSecCeil / 60);
+                        const shouldSpeak = currentMin !== sessionState.lastSpokenMinuteMarker && remainingSecCeil > 15;
+                        if (shouldSpeak) {
+                            sessionState.lastSpokenMinuteMarker = currentMin;
+                        }
+                        updateMotivationBanner(shouldSpeak);
+                    }
+                }
+            };
+
+            // Jalankan semakan setiap 100ms supaya ketepatan masa sentiasa terpelihara walaupun tab bertukar
+            tick();
+            sessionState.timerIntervalId = setInterval(tick, 100);
+        }
+
+        /* =====================================================================
+           ALIRAN 6: TIMER TAMAT
+           ===================================================================== */
+        function triggerConfetti() {
+            const colors = ["#FF8FA3", "#A67CFF", "#6BB8FF", "#FFD166", "#80ED99"];
+            for (let i = 0; i < 36; i++) {
+                const piece = document.createElement("div");
+                piece.className = "confetti-piece";
+                piece.style.left = `${Math.random() * 100}vw`;
+                piece.style.backgroundColor = colors[i % colors.length];
+                piece.style.animationDuration = `${2.5 + Math.random() * 1.8}s`;
+                piece.style.animationDelay = `${Math.random() * 0.4}s`;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 4500);
+            }
+        }
+
+        function completeTimer() {
+            showScreen("screen-complete");
+            setBubuHappyHop(true);
+            playCelebrationChime();
+            triggerConfetti();
+
+            const name = sessionState.childName || "Kawan";
+            const finalSpeech = `${name}, masa dah tamat! Terima kasih kerana berehat bersama Bubu. ${name} boleh sambung pembelajaran sekarang. Jom kita sambung belajar!`;
+
+            document.getElementById("complete-message-text").textContent = `"${finalSpeech}"`;
+            speakBubu(finalSpeech);
+        }
+
+        /* =====================================================================
+           BUTANG SELESAI & MAIN SEMULA
+           ===================================================================== */
+        function finishSession() {
+            playPopSound();
+            clearAllTimers();
+            setBubuHappyHop(false);
+            if ("speechSynthesis" in window) {
+                window.speechSynthesis.cancel();
+            }
+            // Tetapkan semula sesi untuk kanak-kanak seterusnya
+            sessionState.childName = "";
+            sessionState.selectedMinutes = 3;
+            sessionState.totalSeconds = 180;
+            showScreen("screen-welcome");
+            speakBubu("Hai kawan! Saya Bubu. Jom kita tenangkan diri bersama-sama!");
+        }
+
+        function playAgain() {
+            playPopSound();
+            clearAllTimers();
+            setBubuHappyHop(false);
+            // Kekalkan nama kanak-kanak dalam sesi semasa dan kembali ke pilihan masa
+            goToDurationScreen();
+        }
+
+        function goToMainMenu() {
+            playPopSound();
+            clearAllTimers();
+            setBubuHappyHop(false);
+            if ("speechSynthesis" in window) {
+                window.speechSynthesis.cancel();
+            }
+            // Tetapkan semula sesi dan kembali ke Skrin Utama
+            sessionState.childName = "";
+            sessionState.selectedMinutes = 3;
+            sessionState.totalSeconds = 180;
+            showScreen("screen-welcome");
+            speakBubu("Hai kawan! Saya Bubu. Jom kita tenangkan diri bersama-sama!");
+        }
+
+        /* =====================================================================
+           MULA APLIKASI APABILA HALAMAN SEDIA
+           ===================================================================== */
+        window.addEventListener("DOMContentLoaded", () => {
+            injectBubuCharacters();
+            showScreen("screen-welcome");
+            // Cuba mainkan ucapan pembukaan (jika dibenarkan oleh polisi autoplay pelayar)
+            setTimeout(() => {
+                speakBubu("Hai kawan! Saya Bubu. Jom kita tenangkan diri bersama-sama!");
+            }, 400);
+        });
+    </script>
+</body>
+</html>
